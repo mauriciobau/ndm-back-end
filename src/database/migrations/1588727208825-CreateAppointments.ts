@@ -1,4 +1,10 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+} from 'typeorm';
+import { QueryExpressionMap } from 'typeorm/query-builder/QueryExpressionMap';
 
 export default class CreateAppointments1588727208825
   implements MigrationInterface {
@@ -9,22 +15,43 @@ export default class CreateAppointments1588727208825
         columns: [
           {
             name: 'id',
-            type: 'varchar',
+            type: 'uuid',
             isPrimary: true,
             generationStrategy: 'uuid',
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'provider',
-            type: 'varchar',
-            isNullable: false,
+            name: 'provider_id',
+            type: 'uuid',
+            isNullable: true,
           },
           {
             name: 'date',
             type: 'timestamp with time zone',
-            isNullable: false,
+          },
+          {
+            name: 'created_at',
+            type: 'timestamp',
+            default: 'now()',
+          },
+          {
+            name: 'update_at',
+            type: 'timestamp',
+            default: 'now()',
           },
         ],
+      }),
+    );
+
+    await queryRunner.createForeignKey(
+      'appointments',
+      new TableForeignKey({
+        name: 'AppointmentProvider',
+        columnNames: ['provider_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'users',
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
       }),
     );
   }
