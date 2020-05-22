@@ -2,17 +2,17 @@ import { Router } from 'express';
 import multer from 'multer';
 import uploadConfig from '@config/upload';
 
-import UsersControllers from '../controllers/UsersControllers';
+import UsersController from '../controllers/UsersController';
 import UsersAvatarController from '../controllers/UserAvatarController';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
 const usersRouter = Router();
-const usersControllers = new UsersControllers();
+const usersController = new UsersController();
 const usersAvatarController = new UsersAvatarController();
 const upload = multer(uploadConfig);
 
-usersRouter.post('/', usersControllers.create);
+usersRouter.post('/', usersController.create);
 
 usersRouter.patch(
   '/avatar',
