@@ -3,10 +3,10 @@
     "name": "default",
     "type": "postgres",
     "host": "localhost",
-    "port": 5435,
-    "username": "postgres",
-    "password": "docker",
-    "database": "gobarber",
+    "port": 5434,
+    "username": "ndmpg",
+    "password": "hwer2o0t8h43jsb2",
+    "database": "ndm",
     "entities": [
       "./src/modules/**/infra/typeorm/entities/*.ts"
     ],
@@ -23,7 +23,7 @@
     "type": "mongodb",
     "host": "localhost",
     "port": 27017,
-    "database": "gobarber",
+    "database": "ndm",
     "useUnifiedTopology": true,
     "entities": [
       "./src/modules/**/infra/typeorm/schemas/*.ts"
