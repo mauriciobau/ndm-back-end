@@ -26,6 +26,7 @@ describe('CreateUser', () => {
     const user = await createUser.execute({
       name: 'Juca',
       email: 'juca@email.com',
+      role: 'admin',
       password: '123456',
     });
 
@@ -36,6 +37,7 @@ describe('CreateUser', () => {
     await createUser.execute({
       name: 'Juca',
       email: 'juca@email.com',
+      role: 'admin',
       password: '123456',
     });
 
@@ -43,6 +45,18 @@ describe('CreateUser', () => {
       createUser.execute({
         name: 'Juca',
         email: 'juca@email.com',
+        role: 'admin',
+        password: '123456',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should note be able to create a new user with a not permited role', async () => {
+    await expect(
+      createUser.execute({
+        name: 'Juca',
+        email: 'juca@email.com',
+        role: 'not-permited-role',
         password: '123456',
       }),
     ).rejects.toBeInstanceOf(AppError);

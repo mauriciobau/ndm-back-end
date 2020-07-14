@@ -23,12 +23,14 @@ describe('UpdateProfile', () => {
     const user = await fakeUsersRepository.create({
       name: 'Juca',
       email: 'juca@email.com',
+      role: 'admin',
       password: '123456',
     });
 
     const updatedUser = await updateProfileService.execute({
       user_id: user.id,
       name: 'Juca Jéca',
+      role: 'admin',
       email: 'jucajeca@email.com',
     });
 
@@ -42,6 +44,7 @@ describe('UpdateProfile', () => {
         user_id: 'non-existing-user',
         name: 'Juca Jéca',
         email: 'jucajeca@email.com',
+        role: 'admin',
         old_password: 'wrong-old-password',
         password: '654321',
       }),
@@ -52,12 +55,14 @@ describe('UpdateProfile', () => {
     await fakeUsersRepository.create({
       name: 'Juca',
       email: 'juca@email.com',
+      role: 'admin',
       password: '123456',
     });
 
     const user = await fakeUsersRepository.create({
       name: 'Test',
       email: 'test@email.com',
+      role: 'admin',
       password: '123456',
     });
 
@@ -65,6 +70,7 @@ describe('UpdateProfile', () => {
       updateProfileService.execute({
         user_id: user.id,
         name: 'Juca Jéca',
+        role: 'admin',
         email: 'juca@email.com',
       }),
     ).rejects.toBeInstanceOf(AppError);
@@ -74,6 +80,7 @@ describe('UpdateProfile', () => {
     const user = await fakeUsersRepository.create({
       name: 'Juca',
       email: 'juca@email.com',
+      role: 'admin',
       password: '123456',
     });
 
@@ -81,6 +88,7 @@ describe('UpdateProfile', () => {
       user_id: user.id,
       name: 'Juca Jéca',
       email: 'jucajeca@email.com',
+      role: 'admin',
       old_password: '123456',
       password: '654321',
     });
@@ -92,6 +100,7 @@ describe('UpdateProfile', () => {
     const user = await fakeUsersRepository.create({
       name: 'Juca',
       email: 'juca@email.com',
+      role: 'admin',
       password: '123456',
     });
 
@@ -100,6 +109,7 @@ describe('UpdateProfile', () => {
         user_id: user.id,
         name: 'Juca Jéca',
         email: 'jucajeca@email.com',
+        role: 'admin',
         password: '654321',
       }),
     ).rejects.toBeInstanceOf(AppError);
@@ -109,6 +119,7 @@ describe('UpdateProfile', () => {
     const user = await fakeUsersRepository.create({
       name: 'Juca',
       email: 'juca@email.com',
+      role: 'admin',
       password: '123456',
     });
 
@@ -117,8 +128,27 @@ describe('UpdateProfile', () => {
         user_id: user.id,
         name: 'Juca Jéca',
         email: 'jucajeca@email.com',
+        role: 'admin',
         old_password: 'wrong-old-password',
         password: '654321',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
+  it('should note be able to change to a non permited role', async () => {
+    const user = await fakeUsersRepository.create({
+      name: 'Juca',
+      email: 'juca@email.com',
+      role: 'admin',
+      password: '123456',
+    });
+
+    await expect(
+      updateProfileService.execute({
+        user_id: user.id,
+        name: 'Juca Jéca',
+        role: 'not-permitd-role',
+        email: 'juca@email.com',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });

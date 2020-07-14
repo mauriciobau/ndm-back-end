@@ -11,6 +11,7 @@ interface IRequest {
   user_id: string;
   name: string;
   email: string;
+  role: string;
   old_password?: string;
   password?: string;
 }
@@ -29,27 +30,37 @@ class UpdateProfileService {
     user_id,
     name,
     email,
+    role,
     password,
     old_password,
   }: IRequest): Promise<User> {
     const user = await this.usersRepository.findById(user_id);
 
     if (!user) {
-      throw new AppError('User not found.');
+      throw new AppError('Usuário não existe.');
     }
 
     const userWithUpdatedEmail = await this.usersRepository.findByEmail(email);
 
     if (userWithUpdatedEmail && userWithUpdatedEmail.id !== user_id) {
-      throw new AppError('E-mail already in use.');
+      throw new AppError('E-mail já utilizado.');
+    }
+
+    const permitedRoles = ['admin', 'suport'];
+
+    const isRolePemited = permitedRoles.find(rolePermited => rolePermited === role);
+
+    if (!isRolePemited) {
+      throw new AppError('Função não permitida.');
     }
 
     user.name = name;
     user.email = email;
+    user.role = role;
 
     if (password && !old_password) {
       throw new AppError(
-        'You need to inform the old password to set a new password.',
+        'Você precisa informa a senha atual para poder alterar a senha.',
       );
     }
 
@@ -60,7 +71,7 @@ class UpdateProfileService {
       );
 
       if (!checkOldPassword) {
-        throw new AppError('Old password does not match.');
+        throw new AppError('Senha atual não confere.');
       }
 
       user.password = await this.hashProvider.generateHash(password);

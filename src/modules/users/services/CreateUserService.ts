@@ -11,6 +11,7 @@ import User from '../infra/typeorm/entities/User';
 interface IRequest {
   name: string;
   email: string;
+  role: string;
   password: string;
 }
 
@@ -27,11 +28,19 @@ class CreateUserService {
     private cacheProvider: ICacheProvider,
   ) {}
 
-  public async execute({ name, email, password }: IRequest): Promise<User> {
+  public async execute({ name, email, role, password }: IRequest): Promise<User> {
     const checkUserExists = await this.usersRepository.findByEmail(email);
 
     if (checkUserExists) {
-      throw new AppError('Email address already used.');
+      throw new AppError('Endereço de e-mail já está sendo utilizado.');
+    }
+
+    const permitedRoles = ['admin', 'suport'];
+
+    const isRolePemited = permitedRoles.find(rolePermited => rolePermited === role);
+
+    if (!isRolePemited) {
+      throw new AppError('Função não permitida.');
     }
 
     const hashdPassword = await this.hashProvider.generateHash(password);
@@ -39,10 +48,11 @@ class CreateUserService {
     const user = await this.usersRepository.create({
       name,
       email,
+      role,
       password: hashdPassword,
     });
 
-    await this.cacheProvider.invalidatePrefix('providers-list');
+    await this.cacheProvider.invalidatePrefix('users-list');
 
     return user;
   }

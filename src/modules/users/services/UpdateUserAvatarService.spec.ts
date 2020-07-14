@@ -23,6 +23,7 @@ describe('AuthenticateUser', () => {
     const user = await fakeUsersRepository.create({
       name: 'Juca',
       email: 'juca@email.com',
+      role: 'admin',
       password: '123456',
     });
 
@@ -49,6 +50,7 @@ describe('AuthenticateUser', () => {
     const user = await fakeUsersRepository.create({
       name: 'Juca',
       email: 'juca@email.com',
+      role: 'admin',
       password: '123456',
     });
 

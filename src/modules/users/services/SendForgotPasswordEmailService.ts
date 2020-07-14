@@ -29,7 +29,7 @@ class SendForgotEmailPasswordService {
     const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
-      throw new AppError('User does not exists.');
+      throw new AppError('Usuário não existe.');
     }
 
     const { token } = await this.userTokensRepository.generate(user.id);
@@ -46,7 +46,7 @@ class SendForgotEmailPasswordService {
         name: user.name,
         email: user.email,
       },
-      subject: '[GoBarber]Recuperação de senha',
+      subject: '[NDM]Recuperação de senha',
       templateData: {
         file: forgotPasswordTemplate,
         variables: {
