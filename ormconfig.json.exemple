@@ -2,10 +2,10 @@
   {
     "name": "default",
     "type": "postgres",
-    "host": "localhost",
-    "port": 5434,
-    "username": "ndmpg",
-    "password": "hwer2o0t8h43jsb2",
+    "host": "HOST",
+    "port": PORT,
+    "username": "USERNAME",
+    "password": "PASSWORD",
     "database": "ndm",
     "logging": ["query", "error"],
     "entities": [
@@ -22,9 +22,9 @@
   {
     "name": "mongo",
     "type": "mongodb",
-    "host": "localhost",
-    "port": 27017,
-    "database": "ndm",
+    "host": "HOST",
+    "port": PORT,
+    "database": "DATABASE_NAME",
     "useUnifiedTopology": true,    
     "entities": [
       "./src/modules/**/infra/typeorm/schemas/*.ts"

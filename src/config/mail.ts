@@ -15,7 +15,7 @@ export default {
   defaults: {
     from: {
       email: 'email_cadastrado_no_ses@dominio.com',
-      name: 'Admin Gobarber',
+      name: 'Admin NDM',
     },
   },
 } as IMailConfig;

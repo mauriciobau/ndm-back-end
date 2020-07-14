@@ -8,7 +8,6 @@ import {
 import uploadConfig from '@config/upload';
 
 import { Exclude, Expose } from 'class-transformer';
-import { de } from 'date-fns/locale';
 
 @Entity('users')
 class User {

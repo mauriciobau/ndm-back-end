@@ -27,6 +27,10 @@ export default class CreateUsers1587048452054 implements MigrationInterface {
             type: 'varchar',
           },
           {
+            name: 'role',
+            type: 'varchar',
+          },
+          {
             name: 'avatar',
             type: 'varchar',
             isNullable: true,
@@ -38,6 +42,11 @@ export default class CreateUsers1587048452054 implements MigrationInterface {
           },
           {
             name: 'updated_at',
+            type: 'timestamp',
+            default: 'now()',
+          },
+          {
+            name: 'deleted_at',
             type: 'timestamp',
             default: 'now()',
           },
