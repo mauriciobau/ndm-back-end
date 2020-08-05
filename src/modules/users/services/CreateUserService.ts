@@ -28,7 +28,12 @@ class CreateUserService {
     private cacheProvider: ICacheProvider,
   ) {}
 
-  public async execute({ name, email, role, password }: IRequest): Promise<User> {
+  public async execute({
+    name,
+    email,
+    role,
+    password,
+  }: IRequest): Promise<User> {
     const checkUserExists = await this.usersRepository.findByEmail(email);
 
     if (checkUserExists) {
@@ -37,7 +42,9 @@ class CreateUserService {
 
     const permitedRoles = ['admin', 'suport'];
 
-    const isRolePemited = permitedRoles.find(rolePermited => rolePermited === role);
+    const isRolePemited = permitedRoles.find(
+      rolePermited => rolePermited === role,
+    );
 
     if (!isRolePemited) {
       throw new AppError('Função não permitida.');

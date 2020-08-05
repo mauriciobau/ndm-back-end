@@ -29,7 +29,6 @@ export default class CreateUsers1587048452054 implements MigrationInterface {
           {
             name: 'role',
             type: 'varchar',
-            default: 'suport',
           },
           {
             name: 'avatar',
